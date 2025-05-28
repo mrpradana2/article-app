@@ -24,7 +24,7 @@ export default function Header() {
   console.log("window", windowWidth);
 
   return (
-    <section className="w-full h-[50px] backdrop-blur-md sticky top-0 flex justify-between items-center px-5 md:px-16 shadow-lg">
+    <header className="w-full h-[50px] backdrop-blur-md sticky top-0 flex justify-between items-center px-5 md:px-16 shadow-lg z-50">
       <div>
         <Image
           src={windowWidth < 0 ? Logo2 : Logo}
@@ -62,6 +62,6 @@ export default function Header() {
           Logout
         </button>
       </div>
-    </section>
+    </header>
   );
 }
