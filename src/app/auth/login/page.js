@@ -46,7 +46,7 @@ export default function Login() {
   return (
     <>
       <section className="relative h-[100vh] w-full">
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full rounded-lg shadow-lg max-w-lg md:border md:border-gray-300 md:py-8">
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full rounded-lg md:shadow-lg max-w-lg md:border md:border-gray-300 md:py-8">
           <form
             onSubmit={submitHandler}
             className="bg-white flex flex-col gap-y-6 px-6"
