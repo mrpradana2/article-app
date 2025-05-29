@@ -5,11 +5,14 @@ import Logo from "../../assets/Frame.svg";
 import Logo2 from "../../assets/Logo2.svg";
 import LogOut from "../../assets/Log-out.svg";
 import Link from "next/link";
+import { useSelector } from "react-redux";
 
 export default function Header() {
   const [openModalProfile, setOpenModalProfile] = useState(false);
   const [openModalLogout, setOpenModalLogout] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
+
+  const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
     setWindowWidth(window.innerWidth);
@@ -37,42 +40,52 @@ export default function Header() {
             className="scale-[0.9] cursor-pointer"
           />
         </div>
-        <div className="flex gap-x-3">
-          <Link
-            href={"/auth/login"}
-            className="px-3 py-1.5 bg-white border border-primary text-sm rounded-md text-primary cursor-pointer hover:scale-[1.03] active:scale-[1] transition duration-75"
-          >
-            Login
-          </Link>
-          <Link
-            href={"/auth/register"}
-            className="px-3 py-1.5 bg-primary border border-primary text-sm rounded-md text-white cursor-pointer hover:scale-[1.03] active:scale-[1] transition duration-75"
-          >
-            Register
-          </Link>
-        </div>
-        <div className="flex gap-x-2 items-center">
-          <div
-            className="size-[35px] bg-[#BFDBFE] text-[#0073ff] rounded-full text-xl font-semibold text-center leading-[35px] cursor-pointer"
-            onClick={() => {
-              setOpenModalProfile((openModalProfile) => {
-                return !openModalProfile;
-              });
-            }}
-          >
-            J
-          </div>
-          <p
-            onClick={() => {
-              setOpenModalProfile((openModalProfile) => {
-                return !openModalProfile;
-              });
-            }}
-            className="hidden md:block text-sm font-semibold cursor-pointer underline"
-          >
-            James Dean
-          </p>
-        </div>
+
+        {auth.token === null ? (
+          <>
+            {/* if login */}
+            <div className="flex gap-x-3">
+              <Link
+                href={"/auth/login"}
+                className="px-3 py-1.5 bg-white border border-primary text-sm rounded-md text-primary cursor-pointer hover:scale-[1.03] active:scale-[1] transition duration-75"
+              >
+                Login
+              </Link>
+              <Link
+                href={"/auth/register"}
+                className="px-3 py-1.5 bg-primary border border-primary text-sm rounded-md text-white cursor-pointer hover:scale-[1.03] active:scale-[1] transition duration-75"
+              >
+                Register
+              </Link>
+            </div>
+          </>
+        ) : (
+          <>
+            {/* if success login */}
+            <div className="flex gap-x-2 items-center">
+              <div
+                className="size-[35px] bg-[#BFDBFE] text-[#0073ff] rounded-full text-xl font-semibold text-center leading-[35px] cursor-pointer"
+                onClick={() => {
+                  setOpenModalProfile((openModalProfile) => {
+                    return !openModalProfile;
+                  });
+                }}
+              >
+                J
+              </div>
+              <p
+                onClick={() => {
+                  setOpenModalProfile((openModalProfile) => {
+                    return !openModalProfile;
+                  });
+                }}
+                className="hidden md:block text-sm font-semibold cursor-pointer underline"
+              >
+                James Dean
+              </p>
+            </div>
+          </>
+        )}
         <div
           className={`${
             openModalProfile ? "block" : "hidden"
