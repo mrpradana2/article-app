@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import Thumbnail from "../../assets/ThumbArticle1.jpg";
+import Link from "next/link";
 
 export default function CardArticle({ data }) {
   const imageUrl = encodeURI(data.imageUrl);
@@ -25,9 +25,12 @@ export default function CardArticle({ data }) {
           />
         </div>
         <p className="text-slate">{formatDate || <Skeleton />}</p>
-        <h1 className="text-slate-title font-semibold">
+        <Link
+          href={`/articles/${data.id}`}
+          className="text-slate-title font-semibold"
+        >
           {data.title || <Skeleton />}
-        </h1>
+        </Link>
         <p className="text-slate line-clamp-3">
           {data.content || <Skeleton />}
         </p>
