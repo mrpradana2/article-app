@@ -31,8 +31,6 @@ export default function Login() {
       "Password must be at least 8 characters",
       "Password must contain uppercase letters, lowercase letters, numbers, and special characters"
     );
-    console.log(validPass);
-    console.log(messValidatePass);
     setValidatePass(validPass);
     setmessagePass(messValidatePass);
 

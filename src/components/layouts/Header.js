@@ -22,8 +22,6 @@ export default function Header() {
     };
   }, []);
 
-  console.log("window", windowWidth);
-
   return (
     <>
       <header className="w-full h-[50px] backdrop-blur-md sticky top-0 flex justify-between items-center px-5 md:px-16 shadow-lg z-50">
