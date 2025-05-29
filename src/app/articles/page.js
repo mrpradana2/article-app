@@ -1,16 +1,16 @@
 import React from "react";
 import Image from "next/image";
-import { useRouter } from "next/router";
+import { useParams } from "next/navigation";
 
 export default function ArticlePage() {
-  const router = useRouter();
-  const { slug } = router.query;
+  const params = useParams();
+  const { id } = params;
 
   return (
     <>
       <section className="flex flex-col gap-y-2">
         <div>
-          <p>{slug}</p>
+          <p>{id}</p>
           <h1></h1>
           <p></p>
         </div>
