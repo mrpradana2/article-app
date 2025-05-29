@@ -3,7 +3,10 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --primary: #2563EB
+  --primary: #2563eb;
+  --secondary: #bfdbfe;
+  --slate-title: #0f172a;
+  --slate: #334155;
 }
 
 @theme inline {
@@ -12,6 +15,9 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-slate-title: var(--slate-title);
+  --color-slate: var(--slate);
 }
 
 @media (prefers-color-scheme: dark) {
