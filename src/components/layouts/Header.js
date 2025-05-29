@@ -71,7 +71,7 @@ export default function Header() {
                   });
                 }}
               >
-                J
+                {auth.user.username[0]}
               </div>
               <p
                 onClick={() => {
@@ -81,7 +81,7 @@ export default function Header() {
                 }}
                 className="hidden md:block text-sm font-semibold cursor-pointer underline"
               >
-                James Dean
+                {auth.user.username}
               </p>
             </div>
           </>
