@@ -7,11 +7,16 @@ import LogOut from "../../assets/Log-out.svg";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "@/redux/slices/authSlice";
+import { toast } from "react-toastify";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
   const [openModalProfile, setOpenModalProfile] = useState(false);
   const [openModalLogout, setOpenModalLogout] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
+
+  const pathname = usePathname();
+  const isAuthLayout = pathname.startsWith("/auth");
 
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
@@ -28,6 +33,10 @@ export default function Header() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  if (isAuthLayout) {
+    return <></>;
+  }
 
   return (
     <>
@@ -94,6 +103,9 @@ export default function Header() {
           } absolute -bottom-[85px] right-0 bg-white rounded-lg overflow-hidden w-44 flex flex-col mx-5 md:mx-16 shadow-md`}
         >
           <button
+            onClick={() => {
+              location.href = `/profile`;
+            }}
             type="button"
             className="py-2 px-4 bg-white text-slate hover:bg-[#eaeaea] cursor-pointer transition-all w-full text-left"
           >
@@ -134,7 +146,12 @@ export default function Header() {
               onClick={() => {
                 dispatch(userLogout());
                 setOpenModalLogout(false);
-                location.href = "/";
+                toast.success(
+                  "You've been successfully logged out. See you next time!"
+                );
+                setTimeout(() => {
+                  location.href = "/";
+                }, 3000);
               }}
               type="button"
               className={`py-2 px-3 bg-primary text-white rounded-md cursor-pointer hover:scale-[1.02] active:scale-[1] transition duration-75`}
