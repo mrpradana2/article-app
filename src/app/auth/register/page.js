@@ -65,7 +65,9 @@ export default function Register() {
           }
           toast.success("Success create an account");
           console.info("success create status");
-          location.href = "/auth/login";
+          setTimeout(() => {
+            location.href = "/auth/login";
+          }, 3000);
           return res;
         })
         .catch((err) => {
@@ -86,7 +88,14 @@ export default function Register() {
             className="bg-white flex flex-col gap-y-6 px-6"
           >
             <div className="flex justify-center">
-              <Image src={Logo} alt="Logo" />
+              <Image
+                src={Logo}
+                alt="Logo"
+                className="cursor-pointer"
+                onClick={() => {
+                  location.href = "/";
+                }}
+              />
             </div>
             <InputText
               id={"username"}

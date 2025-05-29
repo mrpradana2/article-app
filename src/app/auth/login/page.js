@@ -69,7 +69,9 @@ export default function Login() {
               dispatch(setUser(resProfile.data));
               toast.success(`Welcome back, ${username}! You're now logged in.`);
               console.info("success create status");
-              location.href = "/";
+              setTimeout(() => {
+                location.href = "/";
+              }, 3000);
               return resProfile;
             })
             .catch((err) => {
@@ -98,7 +100,14 @@ export default function Login() {
             className="bg-white flex flex-col gap-y-6 px-6"
           >
             <div className="flex justify-center">
-              <Image src={Logo} alt="Logo" />
+              <Image
+                src={Logo}
+                alt="Logo"
+                className="cursor-pointer"
+                onClick={() => {
+                  location.href = "/";
+                }}
+              />
             </div>
             <InputText
               id={"username"}
