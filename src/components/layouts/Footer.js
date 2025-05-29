@@ -7,8 +7,9 @@ import { usePathname } from "next/navigation";
 export default function Footer() {
   const pathname = usePathname();
   const isAuthLayout = pathname.startsWith("/auth");
+  const isAdminLayout = pathname.startsWith("/admin");
 
-  if (isAuthLayout) {
+  if (isAuthLayout || isAdminLayout) {
     return <></>;
   }
 
