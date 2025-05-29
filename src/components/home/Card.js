@@ -17,12 +17,16 @@ export default function CardArticle({ data }) {
     <>
       <section className="flex flex-col gap-y-2 py-8">
         <div className="relative w-full aspect-[1280/720] rounded-md overflow-hidden">
-          <Image
-            src={imageUrl || <Skeleton />}
-            alt="thumbnail"
-            fill
-            className="object-contain"
-          />
+          {imageUrl ? (
+            <Image
+              src={imageUrl}
+              alt="thumbnail"
+              fill
+              className="object-contain"
+            />
+          ) : (
+            <Skeleton className="w-full h-full" />
+          )}
         </div>
         <p className="text-slate">{formatDate || <Skeleton />}</p>
         <Link
