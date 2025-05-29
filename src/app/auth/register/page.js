@@ -5,6 +5,9 @@ import Link from "next/link";
 import Logo from "../../../assets/Frame.svg";
 import InputText from "@/components/auth/InputText";
 import { validateMinChar, validatePassword } from "@/utils/validation";
+import axios from "axios";
+import { constants } from "@/configs/constant";
+import { toast } from "react-toastify";
 
 export default function Register() {
   const [validateUsername, setValidateUsername] = useState(true);
@@ -36,17 +39,39 @@ export default function Register() {
     );
     setValidatePass(validPass);
     setmessagePass(messValidatePass);
-
+    let validRole = false;
     if (role === "0") {
       setValidateRole(false);
       setmessageRole("Please choose a role");
     } else {
+      validRole = true;
       setValidateRole(true);
       setmessageRole("");
     }
 
-    if (validUsername && validPass && validateRole) {
-      console.log({ username, password });
+    if (validUsername && validPass && validRole) {
+      const newUser = { username, password, role };
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      axios
+        .post(`${constants.apiURL}/auth/register`, newUser, config)
+        .then((res) => {
+          console.log(res);
+          if (res.status !== 201) {
+            throw new Error("failed to register");
+          }
+          toast.success("Success create an account");
+          console.info("success create status");
+          location.href = "/auth/login";
+          return res;
+        })
+        .catch((err) => {
+          toast.error("Failed create an account");
+          if (err instanceof Error) console.error(err.message);
+        });
     } else {
       console.log("gagal");
     }
@@ -94,8 +119,8 @@ export default function Register() {
                 <option value="0" disabled hidden>
                   Choose Role
                 </option>
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
+                <option value="User">User</option>
+                <option value="Admin">Admin</option>
               </select>
               <p
                 className={`${

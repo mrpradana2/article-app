@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/components/layouts/Header";
 import Footer from "@/components/layouts/Footer";
 import { ReduxProvider } from "./providers";
+import { ToastContainer } from "react-toastify";
 
 const archivo = Archivo({
   variable: "--font-archivo",
@@ -19,6 +20,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${archivo.variable} antialiased`}>
         <ReduxProvider>
+          <ToastContainer position="top-right" autoClose={3000} />
           <Header />
           {children}
           <Footer />
