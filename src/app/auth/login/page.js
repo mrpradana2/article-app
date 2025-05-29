@@ -5,12 +5,18 @@ import Link from "next/link";
 import Logo from "../../../assets/Frame.svg";
 import InputText from "@/components/auth/InputText";
 import { validateMinChar, validatePassword } from "@/utils/validation";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setUser, setToken } from "@/redux/slices/authSlice";
+import { constants } from "@/configs/constant";
 
 export default function Login() {
   const [validateUsername, setValidateUsername] = useState(true);
   const [messageUsername, setmessageUsername] = useState("");
   const [validatePass, setValidatePass] = useState(true);
   const [messagePass, setmessagePass] = useState("");
+  const dispatch = useDispatch();
 
   function submitHandler(e) {
     e.preventDefault();
@@ -35,9 +41,51 @@ export default function Login() {
     setmessagePass(messValidatePass);
 
     if (validUsername && validPass) {
-      console.log({ username, password });
-    } else {
-      console.log("gagal");
+      const loginUser = { username, password };
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      axios
+        .post(`${constants.apiURL}/auth/login`, loginUser, config)
+        .then((res) => {
+          console.log(res);
+          if (res.status !== 200) {
+            throw new Error("failed to login");
+          }
+          console.log("TOKEN", res.data.token);
+          axios
+            .get(`${constants.apiURL}/auth/profile`, {
+              headers: {
+                Authorization: `Bearer ${res.data.token}`,
+              },
+            })
+            .then((resProfile) => {
+              if (resProfile.status !== 200) {
+                throw new Error("failed to fetch data");
+              }
+              dispatch(setToken(res.data.token));
+              dispatch(setUser(resProfile.data));
+              toast.success(`Welcome back, ${username}! You're now logged in.`);
+              console.info("success create status");
+              location.href = "/";
+              return resProfile;
+            })
+            .catch((err) => {
+              toast.error(
+                "The email or password you entered is incorrect. Please try again."
+              );
+              if (err instanceof Error) console.log(err.message);
+            });
+          return res;
+        })
+        .catch((err) => {
+          toast.error(
+            "The email or password you entered is incorrect. Please try again."
+          );
+          if (err instanceof Error) console.error(err.message);
+        });
     }
   }
 

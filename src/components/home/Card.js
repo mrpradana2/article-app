@@ -3,9 +3,10 @@ import Image from "next/image";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import Link from "next/link";
+import Thumbnail from "../../assets/ImageNotFound.webp";
 
 export default function CardArticle({ data }) {
-  const imageUrl = encodeURI(data.imageUrl);
+  const imageUrl = encodeURI(data?.imageUrl);
   const date = new Date(data.createdAt);
   const formatDate = date.toLocaleDateString("id-ID", {
     year: "numeric",
@@ -19,7 +20,7 @@ export default function CardArticle({ data }) {
         <div className="relative w-full aspect-[1280/720] rounded-md overflow-hidden">
           {imageUrl ? (
             <Image
-              src={imageUrl}
+              src={Thumbnail}
               alt="thumbnail"
               fill
               className="object-contain"
