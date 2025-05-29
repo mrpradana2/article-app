@@ -5,13 +5,15 @@ import Logo from "../../assets/Frame.svg";
 import Logo2 from "../../assets/Logo2.svg";
 import LogOut from "../../assets/Log-out.svg";
 import Link from "next/link";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { userLogout } from "@/redux/slices/authSlice";
 
 export default function Header() {
   const [openModalProfile, setOpenModalProfile] = useState(false);
   const [openModalLogout, setOpenModalLogout] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
 
+  const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -129,6 +131,11 @@ export default function Header() {
               Cancel
             </button>
             <button
+              onClick={() => {
+                dispatch(userLogout());
+                setOpenModalLogout(false);
+                location.href = "/";
+              }}
               type="button"
               className={`py-2 px-3 bg-primary text-white rounded-md cursor-pointer hover:scale-[1.02] active:scale-[1] transition duration-75`}
             >
