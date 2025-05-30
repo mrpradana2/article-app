@@ -67,10 +67,10 @@ export default function Header() {
                     : "translate-y-[102px] md:translate-y-[109px]"
                 } left-0 right-0 transition-all`}
               ></div>
-              <div
+              <Link
+                href={"/admin/articles"}
                 onClick={() => {
                   setIsNavActive(1);
-                  location.href = "/admin/articles";
                 }}
                 className="flex justify-center md:justify-start items-center gap-4 p-2 w-full cursor-pointer z-20 transition duration-75 rounded-lg"
               >
@@ -78,11 +78,11 @@ export default function Header() {
                 <p className="hidden md:block text-[15px] text-white font-semibold">
                   Articles
                 </p>
-              </div>
-              <div
+              </Link>
+              <Link
+                href={"/admin/categories"}
                 onClick={() => {
                   setIsNavActive(2);
-                  location.href = "/admin/categories";
                 }}
                 className="flex justify-center md:justify-start items-center gap-4 p-2 w-full cursor-pointer z-20 transition duration-75 rounded-lg"
               >
@@ -90,12 +90,12 @@ export default function Header() {
                 <p className="hidden md:block text-[15px] text-white font-semibold">
                   Category
                 </p>
-              </div>
+              </Link>
               <div
                 onClick={() => {
                   setOpenModalLogout(true);
                 }}
-                className="flex justify-center md:justify-start items-center gap-4 p-2 w-full cursor-pointer z-20 transition duration-75 rounded-lg"
+                className="flex justify-center md:justify-start items-center gap-4 p-2 w-full cursor-pointer z-20 hover:bg-red-500 transition duration-75 rounded-lg"
               >
                 <Image src={LogOutWhite} alt="icon" />
                 <p className="hidden md:block text-[15px] text-white font-semibold">
@@ -158,15 +158,13 @@ export default function Header() {
                 openModalProfile ? "block" : "hidden"
               } absolute -bottom-[85px] right-0 bg-white rounded-lg overflow-hidden w-44 flex flex-col mx-5 md:mx-16 shadow-md`}
             >
-              <button
-                onClick={() => {
-                  location.href = `/profile`;
-                }}
+              <Link
+                href={"/profile"}
                 type="button"
                 className="py-2 px-4 bg-white text-slate hover:bg-[#eaeaea] cursor-pointer transition-all w-full text-left"
               >
                 My Account
-              </button>
+              </Link>
               <button
                 onClick={() => {
                   setOpenModalProfile(!openModalProfile);
@@ -183,7 +181,7 @@ export default function Header() {
           <div
             className={`${
               openModalLogout ? "block" : "hidden"
-            } fixed top-0 left-0 right-0 bottom-0 z-[31] flex justify-center items-center`}
+            } fixed top-0 left-0 right-0 bottom-0 z-[70] flex justify-center items-center`}
           >
             <div className="mx-5 md:mx-1 bg-white rounded-lg py-4 px-8 max-w-[350px] flex flex-col gap-y-2">
               <h1 className="font-semibold text-lg">Logout</h1>
@@ -235,7 +233,7 @@ export default function Header() {
             }}
             className={`${
               openModalLogout ? "block" : "hidden"
-            } fixed top-0 left-0 right-0 bottom-0 bg-black opacity-40 z-[30]`}
+            } fixed top-0 left-0 right-0 bottom-0 bg-black opacity-40 z-[50]`}
           ></div>
         </section>
       </>
@@ -306,15 +304,12 @@ export default function Header() {
             openModalProfile ? "block" : "hidden"
           } absolute -bottom-[85px] right-0 bg-white rounded-lg overflow-hidden w-44 flex flex-col mx-5 md:mx-16 shadow-md`}
         >
-          <button
-            onClick={() => {
-              location.href = `/profile`;
-            }}
-            type="button"
+          <Link
+            href={"/profile"}
             className="py-2 px-4 bg-white text-slate hover:bg-[#eaeaea] cursor-pointer transition-all w-full text-left"
           >
             My Account
-          </button>
+          </Link>
           <button
             onClick={() => {
               setOpenModalProfile(!openModalProfile);

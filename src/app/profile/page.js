@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { useSelector } from "react-redux";
+import Link from "next/link";
 
 export default function ProfilePage() {
   const auth = useSelector((state) => state.auth);
@@ -30,15 +31,12 @@ export default function ProfilePage() {
             </tbody>
           </table>
 
-          <button
-            onClick={() => {
-              location.href = "/";
-            }}
-            type="button"
+          <Link
+            href={"/"}
             className="w-full p-2 bg-primary rounded-lg hover:scale-[1.01] hover:bg-blue-700 text-white active:scale-[1] transition duration-75 cursor-pointer"
           >
             Back to home
-          </button>
+          </Link>
         </div>
       </section>
     </>
