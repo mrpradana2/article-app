@@ -6,9 +6,11 @@ import TableArticles from "@/components/admin/articles/TableArticles";
 import axios from "axios";
 import { constants } from "@/configs/constant";
 import { PrivateRouteAdmin } from "@/app/privateRoutes";
+import { useRouter } from "next/navigation";
 
 export default function ArticlesAdmin() {
   const [data, setData] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
     axios
@@ -81,6 +83,9 @@ export default function ArticlesAdmin() {
             </div>
             <div className="flex justify-end items-center z-20">
               <button
+                onClick={() => {
+                  router.replace("/admin/articles/create");
+                }}
                 type="button"
                 className="bg-primary p-2 text-white rounded-lg cursor-pointer hover:scale-[1.01] hover:bg-blue-600 active:scale-[1] transition duration-75 h-max"
               >
