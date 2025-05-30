@@ -20,7 +20,10 @@
     "react-loading-skeleton": "^3.5.0",
     "react-redux": "^9.2.0",
     "react-toastify": "^11.0.5",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "slate": "^0.114.0",
+    "slate-history": "^0.113.1",
+    "slate-react": "^0.114.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
