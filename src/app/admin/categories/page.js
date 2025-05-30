@@ -5,8 +5,15 @@ import Search from "../../../assets/Search.svg";
 import TableCategories from "@/components/admin/categories/TableCategories";
 import axios from "axios";
 import { constants } from "@/configs/constant";
+import { useDispatch } from "react-redux";
+import {
+  setIsModalCategory,
+  setModalCategoryStatus,
+} from "@/redux/slices/uiSlice";
+import ModalCategory from "@/components/admin/categories/ModalCategory";
 
 export default function CategoriesAdmin() {
+  const dispatch = useDispatch();
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -51,6 +58,10 @@ export default function CategoriesAdmin() {
           </div>
           <div className="flex justify-end items-center z-20">
             <button
+              onClick={() => {
+                dispatch(setIsModalCategory());
+                dispatch(setModalCategoryStatus("add"));
+              }}
               type="button"
               className="bg-primary p-2 text-white rounded-lg cursor-pointer hover:scale-[1.01] hover:bg-blue-600 active:scale-[1] transition duration-75 h-max"
             >
@@ -60,6 +71,7 @@ export default function CategoriesAdmin() {
         </div>
         <TableCategories data={data} />
       </div>
+      <ModalCategory />
     </section>
   );
 }

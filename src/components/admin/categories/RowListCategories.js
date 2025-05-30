@@ -1,7 +1,12 @@
 import React from "react";
-import Link from "next/link";
+import { useDispatch } from "react-redux";
+import {
+  setIsModalCategory,
+  setModalCategoryStatus,
+} from "@/redux/slices/uiSlice";
 
 export default function RowListCategories({ data }) {
+  const dispatch = useDispatch();
   const date = new Date(data?.createdAt);
 
   const formatDate = date.toLocaleDateString("en-US", {
@@ -19,12 +24,26 @@ export default function RowListCategories({ data }) {
         <td className="p-2 text-center">{formatDate}</td>
         <td className="p-2">
           <div className="flex gap-2 items-center justify-center">
-            <Link href={"/"} className="underline text-primary">
+            <button
+              onClick={() => {
+                dispatch(setIsModalCategory());
+                dispatch(setModalCategoryStatus("edit"));
+              }}
+              type="button"
+              className="underline text-primary cursor-pointer"
+            >
               Edit
-            </Link>
-            <Link href={"/"} className="underline text-red-500">
+            </button>
+            <button
+              onClick={() => {
+                dispatch(setIsModalCategory());
+                dispatch(setModalCategoryStatus("delete"));
+              }}
+              type="button"
+              className="underline text-red-500 cursor-pointer"
+            >
               Delete
-            </Link>
+            </button>
           </div>
         </td>
       </tr>
