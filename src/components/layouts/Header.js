@@ -48,7 +48,7 @@ export default function Header() {
     return (
       <>
         <section className="flex absolute w-full">
-          <aside className="w-[75px] md:w-full h-lvh flex flex-col px-3 gap-y-8 pt-4 max-w-48 justify-start items-center bg-primary">
+          <aside className="w-[75px] md:w-full h-lvh flex flex-col px-3 gap-y-8 pt-4 max-w-48 justify-start items-center bg-primary sticky top-0">
             <Image
               onClick={() => {
                 location.href = "/";
