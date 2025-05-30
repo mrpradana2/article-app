@@ -3,14 +3,14 @@ import React from "react";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 
-export default function ProfilePage() {
+export default function ProfileAdmin() {
   const auth = useSelector((state) => state.auth);
 
   return (
     <>
-      <section className="px-5 md:px-16 flex justify-center items-center h-lvh">
+      <section className="pt-[65px] pb-7 pl-[80px] md:pl-[210px] pr-5 md:pr-16 text-slate flex justify-center h-lvh">
         <div className="w-full max-w-[350px] flex flex-col gap-y-4 justify-center items-center">
-          <h1 className="text-2xl font-semibold">User Profile</h1>
+          <h1 className="text-2xl font-semibold">Admin Profile</h1>
           <h1 className="size-14 text-center text-primary text-2xl font-semibold bg-[#BFDBFE] leading-14 rounded-full">
             {auth.user.username[0]}
           </h1>
@@ -33,7 +33,7 @@ export default function ProfilePage() {
 
           <Link
             href={"/"}
-            className="w-full p-2 bg-primary rounded-lg hover:scale-[1.01] hover:bg-blue-700 text-white active:scale-[1] transition duration-75 cursor-pointer"
+            className="w-full p-2 bg-primary rounded-lg hover:scale-[1.01] hover:bg-blue-700 text-white active:scale-[1] transition duration-75 cursor-pointer text-center z-50"
           >
             Back to home
           </Link>

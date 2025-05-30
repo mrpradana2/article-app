@@ -159,8 +159,10 @@ export default function Header() {
               } absolute -bottom-[85px] right-0 bg-white rounded-lg overflow-hidden w-44 flex flex-col mx-5 md:mx-16 shadow-md`}
             >
               <Link
-                href={"/profile"}
-                type="button"
+                href={"/admin/profile"}
+                onClick={() => {
+                  setOpenModalProfile(!openModalProfile);
+                }}
                 className="py-2 px-4 bg-white text-slate hover:bg-[#eaeaea] cursor-pointer transition-all w-full text-left"
               >
                 My Account
@@ -305,6 +307,9 @@ export default function Header() {
           } absolute -bottom-[85px] right-0 bg-white rounded-lg overflow-hidden w-44 flex flex-col mx-5 md:mx-16 shadow-md`}
         >
           <Link
+            onClick={() => {
+              setOpenModalProfile(!openModalProfile);
+            }}
             href={"/profile"}
             className="py-2 px-4 bg-white text-slate hover:bg-[#eaeaea] cursor-pointer transition-all w-full text-left"
           >
