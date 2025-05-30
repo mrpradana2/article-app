@@ -71,7 +71,11 @@ export default function Login() {
               dispatch(setUser(resProfile.data));
               toast.success(`Welcome back, ${username}! You're now logged in.`);
               console.info("success create status");
-              router.replace("/");
+              if (resProfile.data.role === "Admin") {
+                router.replace("/admin/articles");
+              } else {
+                router.replace("/");
+              }
               return resProfile;
             })
             .catch((err) => {
