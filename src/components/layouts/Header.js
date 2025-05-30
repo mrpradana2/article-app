@@ -70,6 +70,7 @@ export default function Header() {
               <div
                 onClick={() => {
                   setIsNavActive(1);
+                  location.href = "/admin/articles";
                 }}
                 className="flex justify-center md:justify-start items-center gap-4 p-2 w-full cursor-pointer z-20 transition duration-75 rounded-lg"
               >
@@ -81,6 +82,7 @@ export default function Header() {
               <div
                 onClick={() => {
                   setIsNavActive(2);
+                  location.href = "/admin/categories";
                 }}
                 className="flex justify-center md:justify-start items-center gap-4 p-2 w-full cursor-pointer z-20 transition duration-75 rounded-lg"
               >
