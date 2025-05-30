@@ -8,6 +8,7 @@ import { validateMinChar, validatePassword } from "@/utils/validation";
 import axios from "axios";
 import { constants } from "@/configs/constant";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export default function Register() {
   const [validateUsername, setValidateUsername] = useState(true);
@@ -16,6 +17,7 @@ export default function Register() {
   const [messagePass, setmessagePass] = useState("");
   const [validateRole, setValidateRole] = useState(true);
   const [messageRole, setmessageRole] = useState("");
+  const router = useRouter();
 
   function submitHandler(e) {
     e.preventDefault();
@@ -65,9 +67,7 @@ export default function Register() {
           }
           toast.success("Success create an account");
           console.info("success create status");
-          setTimeout(() => {
-            location.href = "/auth/login";
-          }, 3000);
+          router.replace("/auth/login");
           return res;
         })
         .catch((err) => {
@@ -93,7 +93,7 @@ export default function Register() {
                 alt="Logo"
                 className="cursor-pointer"
                 onClick={() => {
-                  location.href = "/";
+                  router.replace("/");
                 }}
               />
             </div>

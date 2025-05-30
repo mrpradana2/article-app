@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "@/redux/slices/authSlice";
 import { toast } from "react-toastify";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   const [openModalProfile, setOpenModalProfile] = useState(false);
@@ -21,6 +22,7 @@ export default function Header() {
   const [isNavActive, setIsNavActive] = useState(1);
 
   const pathname = usePathname();
+  const router = useRouter();
   const isAuthLayout = pathname.startsWith("/auth");
   const isAdminLayout = pathname.startsWith("/admin");
 
@@ -51,7 +53,7 @@ export default function Header() {
           <aside className="w-[75px] md:w-full h-lvh flex flex-col px-3 gap-y-8 pt-4 max-w-48 justify-start items-center bg-primary sticky top-0">
             <Image
               onClick={() => {
-                location.href = "/";
+                router.replace("/");
               }}
               src={windowWidth > 768 ? Logo2 : Logo4}
               alt="logo"
@@ -205,9 +207,7 @@ export default function Header() {
                     toast.success(
                       "You've been successfully logged out. See you next time!"
                     );
-                    setTimeout(() => {
-                      location.href = "/";
-                    }, 3000);
+                    router.replace("/");
                   }}
                   type="button"
                   className={`py-2 px-3 bg-primary text-white rounded-md cursor-pointer hover:scale-[1.02] active:scale-[1] transition duration-75`}
@@ -248,7 +248,7 @@ export default function Header() {
         <div>
           <Image
             onClick={() => {
-              location.href = "/";
+              router.replace("/");
             }}
             src={windowWidth < 0 ? Logo2 : Logo}
             alt="logo"
@@ -353,9 +353,8 @@ export default function Header() {
                 toast.success(
                   "You've been successfully logged out. See you next time!"
                 );
-                setTimeout(() => {
-                  location.href = "/";
-                }, 3000);
+
+                router.replace("/");
               }}
               type="button"
               className={`py-2 px-3 bg-primary text-white rounded-md cursor-pointer hover:scale-[1.02] active:scale-[1] transition duration-75`}

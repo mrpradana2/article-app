@@ -5,6 +5,7 @@ import axios from "axios";
 import { constants } from "@/configs/constant";
 import Article from "@/components/articles/article";
 import OthersArticle from "@/components/articles/othersArticle";
+import PrivateRoute from "@/app/privateRoutes";
 
 export default function ArticlePage() {
   const params = useParams();
@@ -31,10 +32,12 @@ export default function ArticlePage() {
 
   return (
     <>
-      <section className="flex flex-col gap-y-2 px-5 md:px-16">
-        <Article data={data} />
-        <OthersArticle />
-      </section>
+      <PrivateRoute>
+        <section className="flex flex-col gap-y-2 px-5 md:px-16">
+          <Article data={data} />
+          <OthersArticle />
+        </section>
+      </PrivateRoute>
     </>
   );
 }

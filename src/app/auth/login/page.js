@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setUser, setToken } from "@/redux/slices/authSlice";
 import { constants } from "@/configs/constant";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const [validateUsername, setValidateUsername] = useState(true);
@@ -17,6 +18,7 @@ export default function Login() {
   const [validatePass, setValidatePass] = useState(true);
   const [messagePass, setmessagePass] = useState("");
   const dispatch = useDispatch();
+  const router = useRouter();
 
   function submitHandler(e) {
     e.preventDefault();
@@ -69,9 +71,7 @@ export default function Login() {
               dispatch(setUser(resProfile.data));
               toast.success(`Welcome back, ${username}! You're now logged in.`);
               console.info("success create status");
-              setTimeout(() => {
-                location.href = "/";
-              }, 3000);
+              router.replace("/");
               return resProfile;
             })
             .catch((err) => {
@@ -105,7 +105,7 @@ export default function Login() {
                 alt="Logo"
                 className="cursor-pointer"
                 onClick={() => {
-                  location.href = "/";
+                  router.replace("/");
                 }}
               />
             </div>
