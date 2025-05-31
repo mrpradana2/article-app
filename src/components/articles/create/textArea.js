@@ -1,93 +1,173 @@
-import React, { useCallback, useState } from "react";
-import { createEditor, Editor, Transforms, Element, Span } from "slate";
-import { Slate, Editable, withReact } from "slate-react";
+"use client";
+import React, { useCallback, useMemo, useState } from "react";
+import { createEditor, Transforms, Editor, Text } from "slate";
+import { Slate, Editable, withReact, useSlate } from "slate-react";
+import { withHistory } from "slate-history";
+import classNames from "classnames";
+import {
+  Bold,
+  Italic,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  Undo2,
+  Redo,
+  AlignJustify,
+} from "lucide-react";
 
-export const TextArea = () => {
-  const initialValue = [
-    {
-      type: "paragraph",
-      children: [{ text: "A line of text in a paragraph." }],
-    },
-  ];
-  const [editor] = useState(() => withReact(createEditor()));
+const TextArea = ({ value, onChange }) => {
+  const initialValue = useMemo(
+    () => [
+      {
+        type: "paragraph",
+        children: [{ text: "Type a content..." }],
+      },
+    ],
+    []
+  );
 
-  const renderElement = useCallback((props) => {
-    switch (props.element.type) {
-      case "code":
-        return <CodeElement {...props} />;
-      default:
-        return <DefaultElement {...props} />;
-    }
-  }, []);
+  const editor = useMemo(() => withHistory(withReact(createEditor())), []);
+
+  const renderElement = useCallback((props) => <Element {...props} />, []);
+  const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
 
   return (
-    <Slate editor={editor} initialValue={initialValue}>
-      <Editable
-        renderElement={renderElement}
-        renderLeaf={Leaf}
-        onKeyDown={(event) => {
-          if (!event.ctrlKey) {
-            return;
-          }
-
-          switch (event.key) {
-            case "`": {
-              event.preventDefault();
-              const [match] = Editor.nodes(editor, {
-                match: (n) => n.type === "code",
-              });
-              Transforms.setNodes(
-                editor,
-                { type: match ? "paragraph" : "code" },
-                {
-                  match: (n) =>
-                    Element.isElement(n) && Editor.isBlock(editor, n),
-                }
-              );
-              break;
+    <div className="w-full mx-auto flex flex-col">
+      <Slate
+        editor={editor}
+        initialValue={initialValue}
+        value={value}
+        onChange={onChange}
+      >
+        <Toolbar />
+        <Editable
+          renderElement={renderElement}
+          renderLeaf={renderLeaf}
+          onKeyDown={(event) => {
+            if (event.ctrlKey) {
+              switch (event.key) {
+                case "b":
+                  event.preventDefault();
+                  toggleMark(editor, "bold");
+                  break;
+                case "i":
+                  event.preventDefault();
+                  toggleMark(editor, "italic");
+                  break;
+              }
             }
-            case "b": {
-              event.preventDefault();
-              const [match] = Editor.nodes(editor, {
-                match: (n) => n.type === "code",
-              });
-              Transforms.setNodes(
-                editor,
-                { type: match ? null : "code" },
-                {
-                  match: (n) =>
-                    Element.isElement(n) &&
-                    Editor.addMark(editor, "bold", true),
-                }
-              );
-              break;
-            }
-          }
-        }}
-      />
-    </Slate>
+          }}
+          className="border mt-2 min-h-[200px] p-4"
+        />
+      </Slate>
+    </div>
   );
 };
 
-const CodeElement = (props) => {
+const Toolbar = () => {
+  const editor = useSlate();
+
   return (
-    <pre {...props.attributes}>
-      <code>{props.children}</code>
-    </pre>
+    <div className="flex flex-wrap gap-2 border border-gray-300 p-2 rounded-md bg-white">
+      <Button onClick={() => editor.undo()}>
+        <Undo2 size={16} />
+      </Button>
+      <Button onClick={() => editor.redo()}>
+        <Redo size={16} />
+      </Button>
+      <Button
+        onClick={() => toggleMark(editor, "bold")}
+        active={isMarkActive(editor, "bold")}
+      >
+        <Bold size={16} />
+      </Button>
+      <Button
+        onClick={() => toggleMark(editor, "italic")}
+        active={isMarkActive(editor, "italic")}
+      >
+        <Italic size={16} />
+      </Button>
+      <Button
+        onClick={() => setAlignment(editor, "left")}
+        active={isAlignActive(editor, "left")}
+      >
+        <AlignLeft size={16} />
+      </Button>
+      <Button
+        onClick={() => setAlignment(editor, "center")}
+        active={isAlignActive(editor, "center")}
+      >
+        <AlignCenter size={16} />
+      </Button>
+      <Button
+        onClick={() => setAlignment(editor, "right")}
+        active={isAlignActive(editor, "right")}
+      >
+        <AlignRight size={16} />
+      </Button>
+      <Button
+        onClick={() => setAlignment(editor, "justify")}
+        active={isAlignActive(editor, "justify")}
+      >
+        <AlignJustify size={16} />
+      </Button>
+    </div>
   );
 };
 
-const DefaultElement = (props) => {
-  return <p {...props.attributes}>{props.children}</p>;
+const toggleMark = (editor, format) => {
+  const isActive = isMarkActive(editor, format);
+  if (isActive) Editor.removeMark(editor, format);
+  else Editor.addMark(editor, format, true);
 };
 
-const Leaf = (props) => {
+const isMarkActive = (editor, format) => {
+  const marks = Editor.marks(editor);
+  return marks ? marks[format] === true : false;
+};
+
+const setAlignment = (editor, alignment) => {
+  Transforms.setNodes(
+    editor,
+    { align: alignment },
+    { match: (n) => Editor.isBlock(editor, n) }
+  );
+};
+
+const isAlignActive = (editor, alignment) => {
+  const [match] = Editor.nodes(editor, {
+    match: (n) => n.align === alignment,
+  });
+  return !!match;
+};
+
+const Element = ({ attributes, children, element }) => {
+  const style = { textAlign: element.align || "left" };
   return (
-    <span
-      {...props.attributes}
-      style={{ fontWeight: props.leaf.bold ? "bold" : "normal" }}
+    <p style={style} {...attributes} className="mb-2">
+      {children}
+    </p>
+  );
+};
+
+const Leaf = ({ attributes, children, leaf }) => {
+  if (leaf.bold) children = <strong>{children}</strong>;
+  if (leaf.italic) children = <em>{children}</em>;
+  return <span {...attributes}>{children}</span>;
+};
+
+const Button = ({ active, children, ...props }) => {
+  return (
+    <button
+      {...props}
+      className={classNames(
+        "p-1 cursor-pointer rounded hover:bg-blue-200",
+        active ? "text-primary font-bold" : ""
+      )}
     >
-      {props.children}
-    </span>
+      {children}
+    </button>
   );
 };
+
+export default TextArea;
