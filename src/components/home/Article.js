@@ -38,29 +38,39 @@ export default function ListArticle() {
   start = page * 9 - 9;
   end = page * 9;
 
-  console.log(start, end);
+  let totalPagination = 0;
 
-  let totalPagination = Math.ceil(data.length / 9);
+  if (dataSearch.length === 0) {
+    totalPagination += Math.ceil(data.length / 9);
+  } else {
+    totalPagination += Math.ceil(dataSearch.length / 9);
+  }
 
   const articles = data.slice(start, end);
-  const searchArticles = data.slice(start, end);
+  const searchArticles = dataSearch.slice(start, end);
 
   return (
     <>
       <section className="pb-8">
         <p className="hidden md:block">
-          Showing : {articles.length} of {data.length} articles
+          Showing :{" "}
+          {dataSearch.length === 0 ? articles.length : searchArticles.length} of{" "}
+          {dataSearch.length === 0 ? data.length : dataSearch.length} articles
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {dataSearch.length === 0
             ? articles.map((article, idx) => (
                 <CardArticle data={article} key={idx} />
               ))
-            : dataSearch.map((article, idx) => (
+            : searchArticles.map((article, idx) => (
                 <CardArticle data={article} key={idx} />
               ))}
         </div>
-        <div className="flex gap-2 justify-center">
+        <div
+          className={`${
+            totalPagination === 1 ? "hidden" : "block"
+          } flex gap-2 justify-center`}
+        >
           <div
             onClick={() => {
               if (page > 1) {

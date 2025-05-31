@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Hero from "../../assets/Hero.jpg";
 import Search from "../../assets/Search.svg";
@@ -9,14 +9,30 @@ import { setSearchArticles } from "@/redux/slices/dataSlice";
 export default function HeroLandingPage() {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.data.articles);
+  const [categories, setCategories] = useState([]);
+
+  const categoryNames = [...new Set(data.map((item) => item.category.name))];
+
+  useEffect(() => {
+    setCategories(categoryNames);
+  }, []);
 
   function searchHandler(e) {
     setTimeout(() => {
       const filtered = data.filter((article) =>
-        article.title.toLowerCase().includes(e.target.value)
+        article.title.toLowerCase().includes(e.target.value.toLowerCase())
       );
       dispatch(setSearchArticles(filtered));
     }, 2000);
+  }
+
+  function searchByCategoryHandler(e) {
+    console.log(data);
+    console.log(e.target.value);
+    const filtered = data.filter((article) =>
+      article.category.name.toLowerCase().includes(e.target.value.toLowerCase())
+    );
+    dispatch(setSearchArticles(filtered));
   }
 
   return (
@@ -42,15 +58,18 @@ export default function HeroLandingPage() {
               name="category"
               id="category"
               className="z-20 bg-white w-full p-2 rounded-md focus:outline-primary"
-              defaultValue={"0"}
+              defaultValue={""}
+              onChange={searchByCategoryHandler}
             >
-              <option value="0" disabled hidden>
+              <option value="" disabled hidden>
                 Select Category
               </option>
-              <option value="1">Ekonomi</option>
-              <option value="2">Politik</option>
-              <option value="3">Sosial</option>
-              <option value="4">Budaya</option>
+              <option value="">All</option>
+              {categories.map((category, idx) => (
+                <option value={`${category}`} key={idx}>
+                  {category}
+                </option>
+              ))}
             </select>
             <div className="z-20 relative md:col-span-3">
               <Image
