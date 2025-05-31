@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 📰 Article App
 
-## Getting Started
+Article App adalah aplikasi web berbasis Next.js yang memungkinkan pengguna untuk membaca, menulis, dan mengelola artikel secara efisien.
 
-First, run the development server:
+## ✨ Fitur Utama
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- 🔍 **Daftar Artikel**: Menampilkan semua artikel yang tersedia.
+- 📝 **Buat Artikel**: Formulir untuk menambahkan artikel baru.
+- ✏️ **Edit Artikel**: Kemampuan untuk mengedit artikel yang sudah ada.
+- 🗑️ **Hapus Artikel**: Menghapus artikel yang tidak diperlukan.
+- 🔄 **Navigasi Dinamis**: Navigasi yang responsif dan intuitif.
+
+## 🚀 Teknologi yang Digunakan
+
+- [Next.js 14](https://nextjs.org/): Framework React untuk pengembangan aplikasi web.
+- [React](https://reactjs.org/): Library JavaScript untuk membangun antarmuka pengguna.
+- [Tailwind CSS](https://tailwindcss.com/): Framework CSS untuk styling yang efisien.
+- [PostCSS](https://postcss.org/): Alat untuk transformasi CSS dengan plugin JavaScript.
+
+## 📦 Struktur Proyek
+
+```
+article-app/
+├── public/             # Aset publik seperti gambar dan ikon
+├── src/                # Kode sumber aplikasi
+│   ├── app/            # Komponen dan halaman utama
+│   ├── components/     # Komponen UI yang dapat digunakan kembali
+│   └── styles/         # File CSS dan konfigurasi Tailwind
+├── .gitignore          # File dan folder yang diabaikan oleh Git
+├── README.md           # Dokumentasi proyek
+├── jsconfig.json       # Konfigurasi JavaScript
+├── next.config.mjs     # Konfigurasi Next.js
+├── package.json        # Informasi proyek dan dependensi
+├── postcss.config.mjs  # Konfigurasi PostCSS
+└── tailwind.config.js  # Konfigurasi Tailwind CSS
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Instalasi dan Penggunaan
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+1. **Kloning repositori:**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   ```bash
+   git clone https://github.com/mrpradana2/article-app.git
+   cd article-app
+   ```
 
-## Learn More
+2. **Instalasi dependensi:**
 
-To learn more about Next.js, take a look at the following resources:
+   Menggunakan npm:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```bash
+   npm install
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   Atau menggunakan yarn:
 
-## Deploy on Vercel
+   ```bash
+   yarn install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. **Menjalankan server pengembangan:**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   Menggunakan npm:
+
+   ```bash
+   npm run dev
+   ```
+
+   Atau menggunakan yarn:
+
+   ```bash
+   yarn dev
+   ```
+
+4. **Akses aplikasi:**
+
+   Buka [http://localhost:3000](http://localhost:3000) di browser Anda untuk melihat aplikasi.
+
+## 📄 Konfigurasi Tambahan
+
+- **Tailwind CSS**: Konfigurasi dapat ditemukan di `tailwind.config.js`.
+- **PostCSS**: Konfigurasi tambahan berada di `postcss.config.mjs`.
+- **Font**: Menggunakan Archivo untuk tampilan yang modern dan bersih.
+
+## 🤝 Kontribusi
+
+Kontribusi sangat terbuka! Jika Anda ingin berkontribusi:
+
+1. Fork repositori ini.
+2. Buat branch fitur baru: `git checkout -b fitur-baru`.
+3. Commit perubahan Anda: `git commit -m 'Menambahkan fitur baru'`.
+4. Push ke branch: `git push origin fitur-baru`.
+5. Buat Pull Request.
+
+## 📄 Lisensi
+
+Proyek ini dilisensikan di bawah [MIT License](LICENSE).
+
+---
+
+Dibuat oleh [Muhammad Rizki Pradana](https://github.com/mrpradana2)
