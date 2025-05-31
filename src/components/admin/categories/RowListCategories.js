@@ -4,6 +4,7 @@ import {
   setIsModalCategory,
   setModalCategoryStatus,
 } from "@/redux/slices/uiSlice";
+import { setCategoryUpdate, setCategoryDelete } from "@/redux/slices/dataSlice";
 
 export default function RowListCategories({ data }) {
   const dispatch = useDispatch();
@@ -26,6 +27,7 @@ export default function RowListCategories({ data }) {
           <div className="flex gap-2 items-center justify-center">
             <button
               onClick={() => {
+                dispatch(setCategoryUpdate({ id: data?.id, name: data?.name }));
                 dispatch(setIsModalCategory());
                 dispatch(setModalCategoryStatus("edit"));
               }}
@@ -36,6 +38,7 @@ export default function RowListCategories({ data }) {
             </button>
             <button
               onClick={() => {
+                dispatch(setCategoryDelete({ id: data?.id, name: data?.name }));
                 dispatch(setIsModalCategory());
                 dispatch(setModalCategoryStatus("delete"));
               }}

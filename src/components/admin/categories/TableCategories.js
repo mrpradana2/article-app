@@ -2,7 +2,6 @@ import React from "react";
 import RowListCategories from "./RowListCategories";
 
 export default function TableCategories({ data }) {
-  console.log("categories", data);
   return (
     <>
       <section className="overflow-scroll z-20">

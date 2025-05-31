@@ -5,17 +5,21 @@ import Search from "../../../assets/Search.svg";
 import TableCategories from "@/components/admin/categories/TableCategories";
 import axios from "axios";
 import { constants } from "@/configs/constant";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setIsModalCategory,
   setModalCategoryStatus,
 } from "@/redux/slices/uiSlice";
+import { setCategoryUpdate } from "@/redux/slices/dataSlice";
 import ModalCategory from "@/components/admin/categories/ModalCategory";
 import { PrivateRouteAdmin } from "@/app/privateRoutes";
 
 export default function CategoriesAdmin() {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
+  const refreshTable = useSelector((state) => state.data.refreshCategories);
+
+  data?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   useEffect(() => {
     axios
@@ -32,7 +36,7 @@ export default function CategoriesAdmin() {
       .catch((err) => {
         if (err instanceof Error) console.log("[ERROR] : ", err.message);
       });
-  }, []);
+  }, [refreshTable]);
 
   return (
     <PrivateRouteAdmin>

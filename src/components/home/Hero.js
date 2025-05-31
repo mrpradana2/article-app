@@ -16,7 +16,7 @@ export default function HeroLandingPage() {
         article.title.toLowerCase().includes(e.target.value)
       );
       dispatch(setSearchArticles(filtered));
-    }, 1000);
+    }, 2000);
   }
 
   return (
