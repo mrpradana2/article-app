@@ -5,3 +5,9 @@ export const authPersistConfig = {
   storage,
   whitelist: ["user", "token"],
 };
+
+export const dataPersistConfig = {
+  key: "data",
+  storage,
+  whitelist: ["articles"],
+};

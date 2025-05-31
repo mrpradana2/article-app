@@ -1,9 +1,24 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import Hero from "../../assets/Hero.jpg";
 import Search from "../../assets/Search.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { setSearchArticles } from "@/redux/slices/dataSlice";
 
 export default function HeroLandingPage() {
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.data.articles);
+
+  function searchHandler(e) {
+    setTimeout(() => {
+      const filtered = data.filter((article) =>
+        article.title.toLowerCase().includes(e.target.value)
+      );
+      dispatch(setSearchArticles(filtered));
+    }, 1000);
+  }
+
   return (
     <>
       <section className="px-5 md:px-16 py-20 overflow-hidden relative h-[500px] w-full flex items-center justify-center">
@@ -44,6 +59,8 @@ export default function HeroLandingPage() {
                 className="absolute top-1/2 left-3 -translate-y-1/2"
               />
               <input
+                onChange={searchHandler}
+                placeholder="Search articles"
                 type="search"
                 className="bg-white w-full p-2 pl-9 rounded-md focus:outline-primary"
               />

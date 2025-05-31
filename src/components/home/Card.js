@@ -20,7 +20,7 @@ export default function CardArticle({ data }) {
         <div className="relative w-full aspect-[1280/720] rounded-md overflow-hidden">
           {imageUrl ? (
             <Image
-              src={Thumbnail}
+              src={imageUrl}
               alt="thumbnail"
               fill
               className="object-contain"
