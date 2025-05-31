@@ -11,7 +11,6 @@ export default function ArticlePage() {
   const params = useParams();
   const slug = params.slug;
   const [data, setdata] = useState(null);
-  console.log("data", data);
 
   useEffect(() => {
     axios

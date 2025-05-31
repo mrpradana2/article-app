@@ -1,11 +1,10 @@
 import React from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-// import DOMPurify from "dompurify";
 import Image from "next/image";
+import ArticleContent from "./articleContent";
 
 export default function ArticlePage({ data }) {
-  // const cleanContent = DOMPurify.sanitize(data?.content);
   const date = new Date(data?.createdAt);
   const dateFormat = date.toLocaleDateString("en-US", {
     year: "numeric",
@@ -36,11 +35,7 @@ export default function ArticlePage({ data }) {
             )}
           </div>
         </div>
-        {/* <section
-          className="prose prose-slate max-w-none"
-          dangerouslySetInnerHTML={{ __html: cleanContent }}
-        /> */}
-        <p>{data?.content}</p>
+        {<ArticleContent content={data?.content} /> || <Skeleton />}
       </div>
     </>
   );

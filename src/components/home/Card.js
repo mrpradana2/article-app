@@ -4,6 +4,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import Link from "next/link";
 import Thumbnail from "../../assets/ImageNotFound.webp";
+import ArticleContent from "../articles/articleContent";
 
 export default function CardArticle({ data }) {
   const imageUrl = encodeURI(data?.imageUrl);
@@ -36,9 +37,9 @@ export default function CardArticle({ data }) {
         >
           {data.title || <Skeleton />}
         </Link>
-        <p className="text-slate line-clamp-3">
-          {data.content || <Skeleton />}
-        </p>
+        <div className="text-slate line-clamp-3">
+          {<ArticleContent content={data.content} /> || <Skeleton />}
+        </div>
         <div className="flex gap-2 flex-wrap select-none">
           <p className="text-[#1E3A8A] bg-secondary py-1.5 px-4 w-max rounded-full">
             {data.category.name || <Skeleton />}
