@@ -4,6 +4,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import Link from "next/link";
 import ArticleContent from "../articles/articleContent";
+import Empty from "../../assets/Arrow.svg";
 
 export default function CardArticle({ data }) {
   const imageUrl = encodeURI(data?.imageUrl);
@@ -18,7 +19,7 @@ export default function CardArticle({ data }) {
     <>
       <section className="flex flex-col gap-y-2 py-8">
         <div className="relative w-full aspect-[1280/720] rounded-md overflow-hidden">
-          {imageUrl ? (
+          {data?.imageUrl !== null ? (
             <Image
               src={imageUrl}
               alt="thumbnail"

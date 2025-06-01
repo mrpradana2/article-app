@@ -5,6 +5,8 @@ const initialState = {
   modalCategoryStatus: null,
   previewStatus: null,
   idPreview: 0,
+  idDeleteArticle: null,
+  modalDeleteArticle: false,
   dataPreviewArticle: {
     title: "",
     images: null,
@@ -43,6 +45,12 @@ const uiSlice = createSlice({
     setDataPreviewArticle(state, { payload }) {
       state.dataPreviewArticle = payload;
     },
+    setModalDeleteArticle(state) {
+      state.modalDeleteArticle = !state.modalDeleteArticle;
+    },
+    setIdDeleteArticle(state, { payload }) {
+      state.idDeleteArticle = payload;
+    },
   },
 });
 
@@ -53,5 +61,7 @@ export const {
   setPreviewStatus,
   setIdPreview,
   setDataPreviewArticle,
+  setModalDeleteArticle,
+  setIdDeleteArticle,
 } = uiSlice.actions;
 export default uiSlice.reducer;

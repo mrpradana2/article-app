@@ -7,10 +7,17 @@ import axios from "axios";
 import { constants } from "@/configs/constant";
 import { PrivateRouteAdmin } from "@/app/privateRoutes";
 import { useRouter } from "next/navigation";
+import { useSelector, useDispatch } from "react-redux";
+import { setModalDeleteArticle } from "@/redux/slices/uiSlice";
+import { toast } from "react-toastify";
 
 export default function ArticlesAdmin() {
+  const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const router = useRouter();
+  const isOpenModal = useSelector((state) => state.ui.modalDeleteArticle);
+  const token = useSelector((state) => state.auth.token);
+  const idDelete = useSelector((state) => state.ui.idDeleteArticle);
 
   useEffect(() => {
     axios
@@ -28,6 +35,26 @@ export default function ArticlesAdmin() {
         if (err instanceof Error) console.log("[ERROR] : ", err.message);
       });
   }, []);
+
+  function deleteArticleHandler() {
+    axios
+      .delete(`${constants.apiURL}/articles/${idDelete}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res !== 200) {
+          throw new Error("failed delete articles");
+        }
+        toast.success("Successfully delete article");
+        return res;
+      })
+      .catch((err) => {
+        toast.error("Failed delete article");
+        if (err instanceof Error) console.error(err.message);
+      });
+  }
 
   return (
     <PrivateRouteAdmin>
@@ -95,6 +122,41 @@ export default function ArticlesAdmin() {
           </div>
           <TableArticles data={data} />
         </div>
+        <section
+          className={`${
+            isOpenModal ? "block" : "hidden"
+          } absolute top-0 left-0 right-0 bottom-0`}
+        >
+          <div className="fixed top-0 left-0 right-0 bottom-0 bg-black opacity-30 z-50"></div>
+          <div className="w-max h-max py-5 px-7 bg-white fixed top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2 flex flex-col gap-y-3 rounded-lg max-w-96 z-[60]">
+            <h1 className="font-semibold text-lg">Delete Articles</h1>
+            <p className="text-gray-500">
+              Deleting this article is permanent and cannot be undone. All
+              related content will be removed.
+            </p>
+            <div className="flex gap-x-4 justify-end">
+              <button
+                onClick={() => {
+                  dispatch(setModalDeleteArticle());
+                }}
+                type="button"
+                className="py-2 px-3 border border-gray-300 rounded-md cursor-pointer hover:scale-[1.02] active:scale-[1] transition duration-75"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  deleteArticleHandler();
+                  dispatch(setModalDeleteArticle());
+                }}
+                type="button"
+                className={`bg-red-600 py-2 px-3 text-white rounded-md cursor-pointer hover:scale-[1.02] active:scale-[1] transition duration-75`}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </section>
       </section>
     </PrivateRouteAdmin>
   );

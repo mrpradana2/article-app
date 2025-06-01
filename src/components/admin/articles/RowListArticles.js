@@ -4,6 +4,10 @@ import Search from "../../../assets/Search.svg";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { setIdPreview } from "@/redux/slices/uiSlice";
+import {
+  setModalDeleteArticle,
+  setIdDeleteArticle,
+} from "@/redux/slices/uiSlice";
 
 export default function RowListArticles({ data, index }) {
   const dispatch = useDispatch();
@@ -42,9 +46,16 @@ export default function RowListArticles({ data, index }) {
             <Link href={"/"} className="underline text-primary">
               Edit
             </Link>
-            <Link href={"/"} className="underline text-red-500">
+            <button
+              onClick={() => {
+                dispatch(setIdDeleteArticle(data.id));
+                dispatch(setModalDeleteArticle());
+              }}
+              type="button"
+              className="underline text-red-500 cursor-pointer"
+            >
               Delete
-            </Link>
+            </button>
           </div>
         </td>
       </tr>

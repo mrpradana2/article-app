@@ -89,6 +89,24 @@ export default function CreateArticle() {
     e.preventDefault();
     const categoryId = e.target.category.value;
     const title = e.target.title.value;
+    const thumbnail = e.target.thumbnail.files[0];
+    let base64 = "";
+
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      const base64String = reader.result;
+      base64 += base64String;
+      console.log(base64String);
+    };
+
+    reader.readAsDataURL(thumbnail);
+
+    console.log("thumbnail", base64);
+
+    const formData = new FormData();
+
+    formData.append("imageUrl", base64);
 
     const [validTitle, messageTitleEmpty] = validateInputEmpty(
       title,
@@ -115,9 +133,6 @@ export default function CreateArticle() {
       "Please enter picture"
     );
 
-    const formData = new FormData();
-    formData.append("imageUrl", images);
-
     setValidTitle(validTitle);
     setValidCategory(validCategory);
     setValidThumbnail(validPicture);
@@ -126,7 +141,7 @@ export default function CreateArticle() {
     setMessThumbnail(messagePictureEmpty);
 
     if (validPicture && validCategory && validContent && validTitle) {
-      const newArticles = { title, content, categoryId };
+      let newArticles = { title, content, categoryId };
       axios
         .post(`${constants.apiURL}/upload`, formData, {
           headers: {
@@ -135,9 +150,12 @@ export default function CreateArticle() {
           },
         })
         .then((res) => {
+          console.log("status upload img", res);
           if (res.status !== 200) {
             throw new Error("failed to send picture");
           }
+          newArticles = { ...newArticles, imageUrl: res.data.imageUrl };
+
           axios
             .post(`${constants.apiURL}/articles`, newArticles, {
               headers: {
@@ -146,6 +164,7 @@ export default function CreateArticle() {
               },
             })
             .then((res) => {
+              console.log("status upload content", res);
               if (res.status != 200) {
                 throw new Error("failed to post picture");
               }
@@ -156,6 +175,7 @@ export default function CreateArticle() {
               toast.error("Failed to create an articles");
               if (err instanceof Error) console.log(err.message);
             });
+          return res.data.imageUrl;
         })
         .catch((err) => {
           toast.error("Failed to create an article");
