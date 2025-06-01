@@ -11,3 +11,14 @@ export const dataPersistConfig = {
   storage,
   whitelist: ["articles"],
 };
+
+export const uiPersistConfig = {
+  key: "ui",
+  storage,
+  whitelist: [
+    "previewArticle",
+    "previewArticle",
+    "idPreview",
+    "dataPreviewArticle",
+  ],
+};

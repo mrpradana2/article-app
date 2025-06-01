@@ -10,16 +10,23 @@ import { constants } from "@/configs/constant";
 import { stringingContent } from "@/utils/stringingContent";
 import { validateInputEmpty } from "@/utils/validation";
 import Link from "next/link";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import ArticlePreview from "@/components/admin/articlePreview";
+import {
+  setPreviewArticle,
+  setPreviewStatus,
+  setDataPreviewArticle,
+} from "@/redux/slices/uiSlice";
 
 export default function CreateArticle() {
+  const dispatch = useDispatch();
   const router = useRouter();
   const initialValue = useMemo(
     () => [
       {
         type: "paragraph",
-        children: [{ text: "Type a content..." }],
+        children: [{ text: "" }],
       },
     ],
     []
@@ -38,14 +45,12 @@ export default function CreateArticle() {
   const [validateContent, setValidContent] = useState(true);
   const [validateThumbnail, setValidThumbnail] = useState(true);
   const token = useSelector((state) => state.auth.token);
+  const [titleValue, setTitleValue] = useState("");
 
-  console.log(
-    "ll",
-    validateTitle,
-    validateCategory,
-    validateContent,
-    validateThumbnail
-  );
+  useEffect(() => {
+    dispatch(setPreviewArticle(value));
+    dispatch(setDataPreviewArticle({ title: titleValue, images: previewUrls }));
+  }, [value, titleValue, images]);
 
   let [content, charCount] = stringingContent(value);
 
@@ -186,7 +191,7 @@ export default function CreateArticle() {
               <p className="font-semibold">Thumbnails</p>
               <label
                 htmlFor="thumbnail"
-                className="w-60 aspect-video bg-[#eaeaea] flex flex-col gap-y-1 items-center justify-center border border-dashed relative"
+                className="w-60 aspect-video bg-[#eaeaea] flex flex-col gap-y-1 items-center justify-center border border-dashed relative cursor-pointer"
               >
                 <Image
                   src={UploadImg}
@@ -240,6 +245,9 @@ export default function CreateArticle() {
                 Title
               </label>
               <input
+                onChange={(e) => {
+                  setTitleValue(e.target.value);
+                }}
                 type="text"
                 name="title"
                 id="title"
@@ -284,7 +292,7 @@ export default function CreateArticle() {
           </div>
           <div className="z-20 w-full bg-[#f3f3f3] p-2 flex flex-col gap-y-2">
             <TextArea value={value} onChange={setValue} />
-            <div>{charCount} Words</div>
+            <div>{charCount} Characters</div>
             <p
               className={`${
                 validateContent ? "hidden" : "block"
@@ -300,12 +308,15 @@ export default function CreateArticle() {
             >
               Cancel
             </Link>
-            <button
+            <Link
+              onClick={() => {
+                dispatch(setPreviewStatus("draft"));
+              }}
+              href={"/preview"}
               className="py-2 px-3 border border-gray-300 bg-gray-300 rounded-md cursor-pointer hover:scale-[1.02] active:scale-[1] transition duration-75"
-              type="button"
             >
               Preview
-            </button>
+            </Link>
             <button
               type="submit"
               className={`bg-primary py-2 px-3 text-white rounded-md cursor-pointer hover:scale-[1.02] active:scale-[1] transition duration-75`}

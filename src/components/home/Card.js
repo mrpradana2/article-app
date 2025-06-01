@@ -3,7 +3,6 @@ import Image from "next/image";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import Link from "next/link";
-import Thumbnail from "../../assets/ImageNotFound.webp";
 import ArticleContent from "../articles/articleContent";
 
 export default function CardArticle({ data }) {

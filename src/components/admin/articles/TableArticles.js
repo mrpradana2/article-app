@@ -17,7 +17,7 @@ export default function TableArticles({ data }) {
           </thead>
           <tbody className="p-2 text-slate">
             {data.map((article, index) => (
-              <RowListArticles data={article} key={index} />
+              <RowListArticles data={article} key={index} index={index} />
             ))}
           </tbody>
         </table>

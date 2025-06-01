@@ -2,8 +2,11 @@ import React from "react";
 import Link from "next/link";
 import Search from "../../../assets/Search.svg";
 import Image from "next/image";
+import { useDispatch } from "react-redux";
+import { setIdPreview } from "@/redux/slices/uiSlice";
 
-export default function RowListArticles({ data }) {
+export default function RowListArticles({ data, index }) {
+  const dispatch = useDispatch();
   const date = new Date(data?.createdAt);
 
   const formatDate = date.toLocaleDateString("en-US", {
@@ -27,7 +30,13 @@ export default function RowListArticles({ data }) {
         <td className="p-2 text-center">{formatDate}</td>
         <td className="p-2">
           <div className="flex gap-2 items-center justify-center">
-            <Link href={"/"} className="underline text-primary">
+            <Link
+              onClick={() => {
+                dispatch(setIdPreview(index));
+              }}
+              href={"/preview"}
+              className="underline text-primary"
+            >
               Preview
             </Link>
             <Link href={"/"} className="underline text-primary">

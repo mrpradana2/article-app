@@ -1,7 +1,10 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
-import { authPersistConfig } from "./persistConfig";
-import { dataPersistConfig } from "./persistConfig";
+import {
+  authPersistConfig,
+  uiPersistConfig,
+  dataPersistConfig,
+} from "./persistConfig";
 
 import authReducer from "./slices/authSlice";
 import uiReducer from "./slices/uiSlice";
@@ -9,7 +12,7 @@ import dataReducer from "./slices/dataSlice";
 
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
-  ui: uiReducer,
+  ui: persistReducer(uiPersistConfig, uiReducer),
   data: persistReducer(dataPersistConfig, dataReducer),
 });
 
