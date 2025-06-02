@@ -90,23 +90,10 @@ export default function CreateArticle() {
     const categoryId = e.target.category.value;
     const title = e.target.title.value;
     const thumbnail = e.target.thumbnail.files[0];
-    let base64 = "";
-
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      const base64String = reader.result;
-      base64 += base64String;
-      console.log(base64String);
-    };
-
-    reader.readAsDataURL(thumbnail);
-
-    console.log("thumbnail", base64);
 
     const formData = new FormData();
 
-    formData.append("imageUrl", base64);
+    formData.append("image", thumbnail);
 
     const [validTitle, messageTitleEmpty] = validateInputEmpty(
       title,
@@ -146,35 +133,35 @@ export default function CreateArticle() {
         .post(`${constants.apiURL}/upload`, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "'multipart/form-data'",
           },
         })
         .then((res) => {
-          console.log("status upload img", res);
           if (res.status !== 200) {
             throw new Error("failed to send picture");
           }
           newArticles = { ...newArticles, imageUrl: res.data.imageUrl };
 
-          axios
-            .post(`${constants.apiURL}/articles`, newArticles, {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
-              },
-            })
-            .then((res) => {
-              console.log("status upload content", res);
-              if (res.status != 200) {
-                throw new Error("failed to post picture");
-              }
-              toast.success("Successfully create an article");
-              return res;
-            })
-            .catch((err) => {
-              toast.error("Failed to create an articles");
-              if (err instanceof Error) console.log(err.message);
-            });
+          if (res.data.imageUrl !== null) {
+            axios
+              .post(`${constants.apiURL}/articles`, newArticles, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
+              })
+              .then((res) => {
+                if (res.status != 200) {
+                  throw new Error("failed to post picture");
+                }
+                toast.success("Successfully create an article");
+                router.replace("/admin/articles");
+                return res;
+              })
+              .catch((err) => {
+                toast.error("Failed to create an articles");
+                if (err instanceof Error) console.log(err.message);
+              });
+          }
           return res.data.imageUrl;
         })
         .catch((err) => {
