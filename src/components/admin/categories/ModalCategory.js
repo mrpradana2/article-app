@@ -133,7 +133,7 @@ export default function ModalCategory() {
         onSubmit={submitHandler}
         className={`${
           isModalOpen ? "block" : "hidden"
-        } fixed top-0 left-0 right-0 bottom-0 z-60`}
+        } fixed top-0 left-0 right-0 bottom-0 z-[110]`}
       >
         <div className="fixed top-0 left-0 right-0 bottom-0 bg-black opacity-30"></div>
         <div className="w-max h-max py-5 px-7 bg-white fixed top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2 flex flex-col gap-y-3 rounded-lg max-w-96">
