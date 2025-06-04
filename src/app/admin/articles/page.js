@@ -18,6 +18,7 @@ export default function ArticlesAdmin() {
   const isOpenModal = useSelector((state) => state.ui.modalDeleteArticle);
   const token = useSelector((state) => state.auth.token);
   const idDelete = useSelector((state) => state.ui.idDeleteArticle);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     axios
@@ -34,7 +35,7 @@ export default function ArticlesAdmin() {
       .catch((err) => {
         if (err instanceof Error) console.log("[ERROR] : ", err.message);
       });
-  }, []);
+  }, [refresh]);
 
   function deleteArticleHandler() {
     axios
@@ -44,10 +45,12 @@ export default function ArticlesAdmin() {
         },
       })
       .then((res) => {
-        if (res !== 200) {
+        console.log(res);
+        if (res.status !== 200) {
           throw new Error("failed delete articles");
         }
         toast.success("Successfully delete article");
+        setRefresh(refresh ? false : true);
         return res;
       })
       .catch((err) => {
@@ -125,7 +128,7 @@ export default function ArticlesAdmin() {
         <section
           className={`${
             isOpenModal ? "block" : "hidden"
-          } absolute top-0 left-0 right-0 bottom-0`}
+          } absolute top-0 left-0 right-0 bottom-0 z-[100]`}
         >
           <div className="fixed top-0 left-0 right-0 bottom-0 bg-black opacity-30 z-50"></div>
           <div className="w-max h-max py-5 px-7 bg-white fixed top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2 flex flex-col gap-y-3 rounded-lg max-w-96 z-[60]">
