@@ -16,9 +16,9 @@ export function stringingContent(input) {
     });
 
     if (paragraph.align) {
-      content += `<p style="text-align: ${paragraph.align};">${dynamicText}</p><br>`;
+      content += `<p style="text-align: ${paragraph.align};">${dynamicText}</p>`;
     } else {
-      content += `<p>${dynamicText}</p><br>`;
+      content += `<p>${dynamicText}</p>`;
     }
   });
 
